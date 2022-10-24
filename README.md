@@ -34,6 +34,13 @@ This script will reduce powercycling needs, thus saving phones that don't always
       Restarts RGC<br>
    - Reboots after ~4 days
   
+  ## Changelog
+  - 0.3.25<br>
+  Initial Github release<br>
+  - 0.3.26<br>
+  Make changes to hopefully fix magisk execution to detect screen<br>
+  
+  
   ## ToDo:
  - RGC Scroll fix:<br>
     In the past I have experienced RGC being weird if there is no screen activity for an extended period of time (multiple days).
