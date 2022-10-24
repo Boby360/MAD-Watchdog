@@ -19,7 +19,7 @@ This script will reduce powercycling needs, thus saving phones that don't always
    - Enables keep screen on if powered
    - Sets screen timeout to 9hrs
    - Disables rotation
-   - Sets hostname name
+   - Sets hostname name (most of the time)
    - Debloats devices of unneeded apps
    - Resets ACC
    - WiFi Crash:<br>
