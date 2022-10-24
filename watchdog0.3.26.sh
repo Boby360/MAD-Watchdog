@@ -239,28 +239,28 @@ fi
 #Fix RGC die due to obvious crash
 echo "rgc crash popup check" >> /sdcard/rgc_crash_check.txt
 date >> /sdcard/dumsys_result.txt
-(dumpsys window | grep 'mCurrentFocus' |tr -s " " | cut -b 34-96) >> /sdcard/dumsys_result.txt
+(dumpsys window | grep -F 'mCurrentFocus' |tr -s " " | cut -b 34-96) >> /sdcard/dumsys_result.txt
 if [[ $(dumpsys window windows | grep 'mCurrentFocus' | tr -s " " | cut -b 34-96) == "Application Not Responding: de.grennith.rgc.remotegpscontroller" ]]
 then
 	echo "rgc crashed" >> /sdcard/rgc_crash.txt
 	settings put system accelerometer_rotation 0
 	#if [[ $(wm size) == "Physical size: 1440x2560"
 	#or
-	if [[ $(dumpsys window | grep 'cur=' | tr -s " " | cut -d " " -f 4 | cut -d "=" -f 2 | sed 2d) == "1440x2560" ]]
+	if [[ $(dumpsys window | grep -F 'cur=' | tr -s " " | cut -d " " -f 4 | cut -d "=" -f 2 | sed 2d) == "1440x2560" ]]
 	then
 		echo "RGC popup click" >> /sdcard/rgc_crash_popup_click.txt
 		input tap 475 1397
 		su -c 'rm /sdcard/logcat*.txt'
 		su -c 'logcat -d -f /sdcard/logcat_'$hostname'.txt'
 	fi
-	if [[ $(dumpsys window | grep 'cur=' | tr -s " " | cut -d " " -f 4 | cut -d "=" -f 2 | sed 2d) == "1080x1920" ]]
+	if [[ $(dumpsys window | grep -F 'cur=' | tr -s " " | cut -d " " -f 4 | cut -d "=" -f 2 | sed 2d) == "1080x1920" ]]
 	then
 		echo "RGC popup click" >> /sdcard/rgc_crash_popup_click.txt
 		input tap 330 1041
 		su -c 'rm /sdcard/logcat*.txt'
 		su -c 'logcat -d -f /sdcard/logcat_'$hostname'.txt'
 	fi
-	if [[ $(dumpsys window | grep 'cur=' | tr -s " " | cut -d " " -f 4 | cut -d "=" -f 2 | sed 2d) == "720x1280" ]]
+	if [[ $(dumpsys window | grep -F 'cur=' | tr -s " " | cut -d " " -f 4 | cut -d "=" -f 2 | sed 2d) == "720x1280" ]]
 	then
 		echo "RGC popup click" >> /sdcard/rgc_crash_popup_click.txt
 		input tap 229 701
