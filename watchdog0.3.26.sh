@@ -239,7 +239,7 @@ fi
 #Fix RGC die due to obvious crash
 echo "rgc crash popup check" >> /sdcard/rgc_crash_check.txt
 date >> /sdcard/dumsys_result.txt
-(dumpsys window | grep -F 'mCurrentFocus' |tr -s " " | cut -b 34-96) >> /sdcard/dumsys_result.txt
+(dumpsys window | grep -F 'mCurrentFocus' | tr -s " " | cut -b 34-96) >> /sdcard/dumsys_result.txt
 if [[ $(dumpsys window windows | grep 'mCurrentFocus' | tr -s " " | cut -b 34-96) == "Application Not Responding: de.grennith.rgc.remotegpscontroller" ]]
 then
 	echo "rgc crashed" >> /sdcard/rgc_crash.txt
