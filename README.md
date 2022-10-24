@@ -63,3 +63,6 @@ This script will reduce powercycling needs, thus saving phones that don't always
 
  - Auto Update<br>
     We can use curl to pull the most recent version from github if new problems arise.
+ 
+ - Monitor PD
+    Couldn't hurt to keep an eye on PD, just incase.
