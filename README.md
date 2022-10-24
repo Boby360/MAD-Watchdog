@@ -1,6 +1,7 @@
 # MAD-Watchdog
 
-# Does not fully work if executed automatically by device. Work in progress!!
+# Does not fully work if executed automatically by device. 
+# Work in progress!!
 
 The purpose of this script is to keep devices that run RGC in check.
 Phones especially, as ATVs should use RMD to keep them in check.
