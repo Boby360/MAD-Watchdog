@@ -1,11 +1,11 @@
 #!/system/bin/sh
 #MAD watchdog script
-ver='0.3.25'
+ver='0.3.26'
 productmodel=`getprop ro.product.model`
 #To run at phone startup: 
 #su
 #rm /data/adb/service.d/*.sh 
-#mv /sdcard/watchdog0.3.25.sh /data/adb/service.d/watchdog0.3.25.sh && chmod 777 /data/adb/service.d/watchdog0.3.25.sh && chown 0.0 /data/adb/service.d/watchdog0.3.25.sh
+#mv /sdcard/watchdog0.3.26.sh /data/adb/service.d/watchdog0.3.26.sh && chmod 777 /data/adb/service.d/watchdog0.3.26.sh && chown 0.0 /data/adb/service.d/watchdog0.3.26.sh
 while [ "$(getprop sys.boot_completed)" != 1 ];
 do sleep 1;
 done
