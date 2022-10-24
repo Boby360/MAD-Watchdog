@@ -11,7 +11,7 @@ This script will reduce powercycling needs, thus saving phones that don't always
 
 ## Features:
    Phones:
-   - installs AWK and CURL onto device
+   - Installs AWK and CURL onto device
    - Enables adb over WiFi
    - Moves adb_keys onto device so there are no ADB requests
    - Disables bluetooth
