@@ -53,3 +53,6 @@ This script will reduce powercycling needs, thus saving phones that don't always
     
  - RGC crash start check<br>
     The way this is coded is a bit weird, and should be cleaned up/use regular if method.
+
+ - Auto Update<br>
+    We can use curl to pull the most recent version from github if new problems arise.
