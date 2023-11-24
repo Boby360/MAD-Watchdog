@@ -65,9 +65,14 @@ fi
 
 
 ########Is SELinux set to enforce after starting GC?
-
- 
-
+if [[ $(pidof com.gocheats.launcher) != "" ]]
+then
+if [[ $(getenforce) == "Permissive" ]]
+then
+sleep 20
+su -c 'setenforce 1'
+fi
+fi
 
 
 ########Are most of GC instances running?
@@ -99,12 +104,6 @@ fi
 ########Is GC running?
 if [[ $(pidof com.gocheats.launcher) == "" ]]
 then
-
-if [[ getenforce == "Permissive" ]]
-then
-sleep 20
-su -c 'setenforce 1'
-fi
 
 #Grab log of crash
 logcat -d > /sdcard/logcat_GC_crash_$(get_current_time).txt
