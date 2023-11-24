@@ -19,7 +19,7 @@ get_current_time() {
 }
 
 hostname = `cat /data/local/tmp/config.json | jq -r '.device_name'`
-
+workers_count = `cat config.json | jq -r '.workers_count'`
 su -c 'hostname '$hostname''
 su -c 'setprop net.hostname '$hostname''
 su -c 'setprop net.bt.name '$hostname''
@@ -105,7 +105,7 @@ fi
 
 ########Are most of GC instances running?
 #If only 1 is running, then sleep and double check we aren't in the process of starting.
-if [[ $(netstat -t | grep -c 7070) < 2 ]]
+if [[ $(netstat -t | grep -c 7070) < 2 ]] #we could use a percentage of $workers_count in the future
 then
 sleep 120
 
