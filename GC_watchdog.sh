@@ -62,7 +62,8 @@ su -c 'renice -n -15 -p $launcher_pid'
 su -c 'renice -n -14 -p $script_pid'
 
 ###############################Check Loop:
-
+while true
+do
 
 #########Lets Grep the logcat and look for some stupid user error problems...
 DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/your-webhook-id/your-webhook-token"
@@ -85,13 +86,14 @@ else
 fi
 
 
+sleep 1
 #########Verify ADB is running, ifnot, reset service.
 if busybox netstat -tuln | grep -q "5555"; then
 else
 adb start-server
 fi
 
-
+sleep 1
 ########Is SELinux set to enforce after starting GC?
 if [[ $(pidof com.gocheats.launcher) != "" ]]
 then
@@ -103,11 +105,13 @@ fi
 fi
 
 
+sleep 1
 ########Are most of GC instances running?
 #If only 1 is running, then sleep and double check we aren't in the process of starting.
 if [[ $(netstat -t | grep -c 7070) < 2 ]] #we could use a percentage of $workers_count in the future
 then
 sleep 120
+
 
 #If after sleep we are still only running 1 instance or less, then restart.
 if [[ $(netstat -t | grep -c 7070) < 2 ]]
@@ -128,7 +132,7 @@ fi
 fi
 
 
-
+sleep 1
 ########Is GC running?
 if [[ $(pidof com.gocheats.launcher) == "" ]]
 then
@@ -160,7 +164,7 @@ fi
 
 
 
-
+sleep 1
 #########Check WiFi/Ethernet
 #Wifi can die/crash and still be in a enabled state. Ping local router verifies if wifi works or not.
 
@@ -189,4 +193,6 @@ if [ $? -eq 0 ] #|| $? != 'connect: Network is unreachable'
 		fi
 		
 fi
-echo "Done all checks" #>> /sdcard/watchdog_success.txt
+#echo "Done all checks" #>> /sdcard/watchdog_success.txt
+sleep 300
+done 
