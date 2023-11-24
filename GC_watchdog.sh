@@ -18,7 +18,16 @@ get_current_time() {
     date +"%Y-%m-%d %H:%M:%S"
 }
 
-hostname = `getprop net.hostname`
+hostname = `cat /data/local/tmp/config.json | jq -r '.device_name'`
+
+su -c 'hostname '$hostname''
+su -c 'setprop net.hostname '$hostname''
+su -c 'setprop net.bt.name '$hostname''
+su -c 'settings put system device_name '$hostname''
+su -c 'settings put global device_name '$hostname''
+su -c 'setprop persist.usb.serialno '$hostname''
+su -c 'settings put secure bluetooth_name '$hostname''
+su -c 'settings put global synced_account_name '$hostname''
 
 #Optimizations:
 
