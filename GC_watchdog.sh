@@ -53,6 +53,25 @@ su -c 'renice -n -14 -p $script_pid'
 ###############################Check Loop:
 
 
+#########Lets Grep the logcat and look for some stupid user error problems...
+DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/your-webhook-id/your-webhook-token"
+
+
+# Check if the logcat contains a mismatch game version.
+if logcat -d | grep -q "Mismatching game version!"; then
+    LOG_LINE=$(logcat -d | grep "Mismatching game version!")
+    curl -X POST -H "Content-Type: application/json" -d '{"content": "Mismatching game version detected on Android device:\n'"$LOG_LINE"'"}' "$DISCORD_WEBHOOK_URL"
+	sleep 5m
+else
+fi
+
+# Check if the logcat contains a License validation error
+if logcat -d | grep -q "Mismatching game version!"; then
+    LOG_LINE=$(logcat -d | grep "License validation failed!")
+    curl -X POST -H "Content-Type: application/json" -d '{"content": "License Validation error found on $hostname' "$DISCORD_WEBHOOK_URL"
+	sleep 5m
+else
+fi
 
 
 #########Verify ADB is running, ifnot, reset service.
