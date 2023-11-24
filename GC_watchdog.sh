@@ -18,6 +18,8 @@ get_current_time() {
     date +"%Y-%m-%d %H:%M:%S"
 }
 
+hostname = `getprop net.hostname`
+
 #Optimizations:
 
 #whitelist pogo and launcher so we get all of the logcat errors.
@@ -60,7 +62,7 @@ DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/your-webhook-id/your-webho
 # Check if the logcat contains a mismatch game version.
 if logcat -d | grep -q "Mismatching game version!"; then
     LOG_LINE=$(logcat -d | grep "Mismatching game version!")
-    curl -X POST -H "Content-Type: application/json" -d '{"content": "Mismatching game version detected on Android device:\n'"$LOG_LINE"'"}' "$DISCORD_WEBHOOK_URL"
+    curl -X POST -H "Content-Type: application/json" -d '{"content": "Mismatching game version detected on $hostname:\n'"$LOG_LINE"'"}' "$DISCORD_WEBHOOK_URL"
 	sleep 5m
 else
 fi
