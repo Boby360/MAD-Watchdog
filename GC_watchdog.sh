@@ -8,6 +8,7 @@ routerIP='192.168.0.1'
 #su
 #rm /data/adb/service.d/*.sh
 #mv /sdcard/watchdog0.3.35.sh /data/adb/service.d/watchdog0.3.35.sh && chmod 777 /data/adb/service.d/watchdog0.3.35.sh && chown 0.0 /data/adb/service.d/watchdog0.3.35.sh
+
 while [ "$(getprop sys.boot_completed)" != 1 ];
 do sleep 1;
 done
@@ -23,9 +24,6 @@ get_current_time() {
 logcat -P "com.nianticlabs.pokemongo"
 logcat -P "com.gocheats.launcher"
 
-
-#Done just for phones. GC will change this on startup.
-su -c 'setenforce 1'
 
 #ATV optimizations
 pm disable com.google.android.tts
