@@ -63,7 +63,7 @@ DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/your-webhook-id/your-webho
 if logcat -d | grep -q "Mismatching game version!"; then
     LOG_LINE=$(logcat -d | grep "Mismatching game version!")
     curl -X POST -H "Content-Type: application/json" -d '{"content": "Mismatching game version detected on $hostname:\n'"$LOG_LINE"'"}' "$DISCORD_WEBHOOK_URL"
-	sleep 5m
+	sleep 300
 else
 fi
 
@@ -71,7 +71,7 @@ fi
 if logcat -d | grep -q "Mismatching game version!"; then
     LOG_LINE=$(logcat -d | grep "License validation failed!")
     curl -X POST -H "Content-Type: application/json" -d '{"content": "License Validation error found on $hostname' "$DISCORD_WEBHOOK_URL"
-	sleep 5m
+	sleep 300
 else
 fi
 
