@@ -64,6 +64,11 @@ adb start-server
 fi
 
 
+########Is SELinux set to enforce after starting GC?
+
+ 
+
+
 
 ########Are most of GC instances running?
 #If only 1 is running, then sleep and double check we aren't in the process of starting.
@@ -94,6 +99,12 @@ fi
 ########Is GC running?
 if [[ $(pidof com.gocheats.launcher) == "" ]]
 then
+
+if [[ getenforce == "Permissive" ]]
+then
+sleep 20
+su -c 'setenforce 1'
+fi
 
 #Grab log of crash
 logcat -d > /sdcard/logcat_GC_crash_$(get_current_time).txt
