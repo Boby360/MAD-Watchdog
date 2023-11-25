@@ -136,6 +136,9 @@ echo mac > /sys/class/unifykeys/name
 echo "$new_mac" > /sys/class/unifykeys/write
 cat /sys/class/unifykeys/read
 echo 0 > /sys/class/unifykeys/lock
+
+echo "$newmac" > /sys/class/net/$adapter/address
+
 ifconfig $adapter up
 
 fi
