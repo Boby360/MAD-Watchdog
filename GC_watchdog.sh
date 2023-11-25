@@ -114,7 +114,7 @@ fi
 #For A7 ATVs this was used:
 # echo 1 > /sys/class/unifykeys/lock
 # echo mac > /sys/class/unifykeys/name
-# echo "$1" >/sys/class/unifykeys/write
+# echo "$new_mac" > /sys/class/unifykeys/write
 # cat /sys/class/unifykeys/read
 # echo 0 > /sys/class/unifykeys/lock
 
@@ -123,10 +123,20 @@ if [[ $mac == "00:15:18:01:81:31" || $mac == "02:00:00:00:00:00" ]]; then
 
 new_mac=$(xxd -l 6 -p /dev/urandom |sed 's/../&:/g;s/:$//')
 
+ifconfig $adapter down
 su -c "ip link set dev $adapter address $new_mac"
 #or
 su -c "ifconfig $adapter hw ether $new_mac"
 #su -c "echo $new_mac > /efs/wifi/.mac.info"
+
+#Make it persistant in A9?
+echo 1 > /sys/class/unifykeys/lock
+echo mac > /sys/class/unifykeys/name
+echo "$new_mac" > /sys/class/unifykeys/write
+cat /sys/class/unifykeys/read
+echo 0 > /sys/class/unifykeys/lock
+ifconfig $adapter up
+
 fi
 
 sleep 60
