@@ -125,6 +125,7 @@ fi
 
 if [[ $mac == "00:15:18:01:81:31" || $mac == "02:00:00:00:00:00" ]]; then
 
+#Should follow the standard where local randomized MAC has X2:..........
 new_mac=$(xxd -l 6 -p /dev/urandom |sed 's/../&:/g;s/:$//')
 
 ifconfig $adapter down
