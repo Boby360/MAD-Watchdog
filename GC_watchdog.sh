@@ -223,12 +223,12 @@ sleep 1
 
 
 #This doesn't really math, as we will have 1 more connection for the MITM, seperate from the workers on 7070.
-if [[ $(netstat -t | grep -c 7070) < 2 ]]; then #we could use a percentage of $workers_count in the future
+if [[ $(netstat -t | grep -c 7070) < 3 ]]; then #we could use a percentage of $workers_count in the future
 sleep 120
 
 
 #If after sleep we are still only running 1 instance or less, then restart.
-if [[ $(netstat -t | grep -c 7070) < 2 ]]; then
+if [[ $(netstat -t | grep -c 7070) < 3 ]]; then
 am force-stop com.nianticlabs.pokemongo
 am force-stop com.gocheats.launcher
 sleep 2
