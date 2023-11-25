@@ -14,8 +14,8 @@ percentage_down="50"
 
 
 #adjust these if adapters are different
-wifi_mac=$(cat /sys/class/net/wlan0/address) > /dev/null
-eth0_mac=$(cat /sys/class/net/eth0/address) > /dev/null
+wifi_mac=$(cat /sys/class/net/wlan0/address) 2>&1 > /dev/nulll
+eth0_mac=$(cat /sys/class/net/eth0/address) 2>&1 > /dev/null
 
 
 echo "after startup stuff"
@@ -68,9 +68,10 @@ echo "set logcat whitelist"
 sleep 1
 
 #ATV optimizations
-pm disable com.google.android.tts > /dev/null
-pm disable com.droidlogic.BluetoothRemote > /dev/null
-pm disable com.google.android.apps.turbo > /dev/null
+echo "Any errors below are just missing packages, not to worry"
+su -c "pm disable com.google.android.tts 2>&1 > /dev/null"
+su -c "pm disable com.droidlogic.BluetoothRemote 2>&1 > /dev/null"
+su -c "pm disable com.google.android.apps.turbo 2>&1 > /dev/null"
 
 
 ######This is kind of risky
