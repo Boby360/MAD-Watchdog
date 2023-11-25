@@ -121,7 +121,7 @@ if [[ $mac == "00:15:18:01:81:31" || $mac == "02:00:00:00:00:00" ]]; then
 new_mac=$(xxd -l 6 -p /dev/urandom |sed 's/../&:/g;s/:$//')
 
 su -c "ip link set dev wlan0 address $new_mac"
-or
+#or
 su -c "ifconfig wlan0 hw ether $new_mac"
 su -c "echo $new_mac > /efs/wifi/.mac.info"
 fi
