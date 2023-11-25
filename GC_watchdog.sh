@@ -141,6 +141,8 @@ echo "$newmac" > /sys/class/net/$adapter/address
 
 ifconfig $adapter up
 
+echo "New MAC address: $new_mac" > /sdcard/$new_mac.txt
+
 fi
 
 sleep 60
