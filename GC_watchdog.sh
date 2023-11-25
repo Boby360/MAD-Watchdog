@@ -18,40 +18,43 @@ wifi_mac=$(cat /sys/class/net/wlan0/address) 2>&1 > /dev/nulll
 eth0_mac=$(cat /sys/class/net/eth0/address) 2>&1 > /dev/null
 
 
-echo "after startup stuff"
+#echo "after startup stuff"
 sleep 1
 #To run at phone startup: 
 #su
 #rm /data/adb/service.d/*.sh
 #mv /sdcard/GC_watchdog.sh /data/adb/service.d/GC_watchdog.sh && chmod 777 /data/adb/service.d/GC_watchdog.sh && chown 0.0 /data/adb/service.d/GC_watchdog.sh
-echo "before while"
+#echo "before while"
 while [ "$(getprop sys.boot_completed)" != 1 ]
 do sleep 1
 done
 
 
 sleep 2
-echo "after while"
+#echo "after while"
 
 
-echo "hostname command:"
+#echo "hostname command:"
+#If using GC, it will pull hostname from its config file.
 hostname=$(su -c "awk -F'\"' '/device_name/ {print \$4}' /data/local/tmp/config.json")
-echo "workers count command:"
+#should work for Atlas:
+#hostname=$(su -c "awk -F'\"' '/deviceName/ {print \$4}' /data/local/tmp/atlas_config.json")
+#echo "workers count command:"
 workers_count=$(su -c awk -F'[:,]' '/workers_count/ {gsub(/^[ \t]+/,"",$2); print $2}' /data/local/tmp/config.json)
 echo "$hostname"
 echo "This is my hostname"
 su -c "hostname $hostname"
 su -c "setprop net.hostname $hostname"
-echo "after hostnames"
+#echo "after hostnames"
 su -c "setprop net.bt.name $hostname"
-echo "some way through"
+#echo "some way through"
 su -c "settings put system device_name $hostname"
 su -c "settings put global device_name $hostname"
-echo "some more way through"
+#echo "some more way through"
 su -c "setprop persist.usb.serialno $hostname"
 su -c "settings put secure bluetooth_name $hostname"
 su -c "settings put global synced_account_name $hostname"
-echo "start optimizations"
+#echo "start optimizations"
 #Optimizations:
 
 #Enable ADB, and make sure its on 5555:
@@ -64,7 +67,7 @@ su -c "settings put global anr_show_background_apps 0"
 #whitelist pogo and launcher so we get all of the logcat errors.
 su -c 'logcat -P ""'
 
-echo "set logcat whitelist"
+#echo "set logcat whitelist"
 sleep 1
 
 #ATV optimizations
@@ -155,14 +158,14 @@ monkey -p com.gocheats.launcher 1
 fi
 sleep 5
 
-echo "OOM"
+#echo "OOM"
 ##Keep things alive (OOM score)
 #Script
 rm /sdcard/pid-*.txt
 script_pid=`echo $$`
 echo $script_pid > /sdcard/pid-$script_pid.txt
 su -c "echo -900 >> /proc/$script_pid/oom_score_adj"
-echo "script done"
+#echo "script done"
 
 #Launcher (Default when checked was 906)
 launcher_pid=$(pidof com.gocheats.launcher)
@@ -171,7 +174,7 @@ su -c 'echo -900 >> /proc/'$launcher_pid'/oom_score_adj'
 
 #Pogo default when checked was 700
 
-echo "Be nice"
+#echo "Be nice"
 ##Lets be nice to the launcher
 su -c "renice -n -15 $launcher_pid"
 su -c "renice -n -14 $script_pid"
