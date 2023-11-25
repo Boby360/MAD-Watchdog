@@ -126,7 +126,7 @@ new_mac=$(xxd -l 6 -p /dev/urandom |sed 's/../&:/g;s/:$//')
 su -c "ip link set dev $adapter address $new_mac"
 #or
 su -c "ifconfig $adapter hw ether $new_mac"
-su -c "echo $new_mac > /efs/wifi/.mac.info"
+#su -c "echo $new_mac > /efs/wifi/.mac.info"
 fi
 
 sleep 60
