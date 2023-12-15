@@ -2,6 +2,16 @@
 #GC watchdog script
 
 #ver='0.3.35'
+#echo "after startup stuff"
+sleep 1
+#To run at phone startup: 
+#su
+#rm /data/adb/service.d/*.sh
+#mv /sdcard/GC_watchdog.sh /data/adb/service.d/GC_watchdog.sh && chmod 777 /data/adb/service.d/GC_watchdog.sh && chown 0.0 /data/adb/service.d/GC_watchdog.sh
+#echo "before while"
+while [ "$(getprop sys.boot_completed)" != 1 ]
+do sleep 1
+done
 productmodel=$(su -c "getprop ro.product.model")
 
 #Adjust for gateway
@@ -16,19 +26,6 @@ percentage_down="50"
 #adjust these if adapters are different
 wifi_mac=$(cat /sys/class/net/wlan0/address) 2>&1 > /dev/nulll
 eth0_mac=$(cat /sys/class/net/eth0/address) 2>&1 > /dev/null
-
-
-#echo "after startup stuff"
-sleep 1
-#To run at phone startup: 
-#su
-#rm /data/adb/service.d/*.sh
-#mv /sdcard/GC_watchdog.sh /data/adb/service.d/GC_watchdog.sh && chmod 777 /data/adb/service.d/GC_watchdog.sh && chown 0.0 /data/adb/service.d/GC_watchdog.sh
-#echo "before while"
-while [ "$(getprop sys.boot_completed)" != 1 ]
-do sleep 1
-done
-
 
 sleep 2
 #echo "after while"
@@ -152,10 +149,12 @@ fi
 sleep 60
 #Lets see if GC is running.
 ########Is GC running?
-if [[ $(pidof com.gocheats.launcher) == "" ]]
-then
+launcher_pid=`su -c pidof com.gocheats.launcher`
+sleep 5
+
+if [ -z "$launcher_pid" ]; then
 #Start GC
-monkey -p com.gocheats.launcher 1
+su -c monkey -p com.gocheats.launcher 1
 fi
 sleep 5
 
@@ -169,9 +168,9 @@ su -c "echo -900 >> /proc/$script_pid/oom_score_adj"
 #echo "script done"
 
 #Launcher (Default when checked was 906)
-launcher_pid=$(pidof com.gocheats.launcher)
+launcher_pid=`su -c pidof com.gocheats.launcher`
 echo $launcher_pid > /sdcard/pid-$launcher_pid.txt
-su -c 'echo -900 >> /proc/'$launcher_pid'/oom_score_adj'
+su -c 'echo -900 >> /proc/$launcher_pid/oom_score_adj'
 
 #Pogo default when checked was 700
 
@@ -216,8 +215,8 @@ fi
 
 sleep 1
 ########Is SELinux set to enforce after starting GC?
-if [[ $(pidof com.gocheats.launcher) != "" ]]; then
-echo "GC is running"
+launcher_pid=`su -c pidof com.gocheats.launcher`
+if [ -z "$launcher_pid" ]; then
 if [[ $(getenforce) == "Permissive" ]]; then
 echo "Device is Permissive"
 sleep 5
@@ -242,7 +241,7 @@ am force-stop com.nianticlabs.pokemongo
 am force-stop com.gocheats.launcher
 sleep 2
 #Restart GC
-monkey -p com.gocheats.launcher 1
+su -c "monkey -p com.gocheats.launcher 1"
 
 #redo optimizations
 launcher_pid=`pidof com.gocheats.launcher`
@@ -256,9 +255,7 @@ fi
 
 sleep 1
 ########Is GC running?
-if [[ $(pidof com.gocheats.launcher) == "" ]]
-then
-
+if [ -z "$launcher_pid" ]; then
 #Grab log of crash
 time=$(date +"%Y-%m-%d %H:%M:%S")
 logcat -d > /sdcard/logcat_GC_crash_$time.txt
@@ -267,7 +264,7 @@ am force-stop com.nianticlabs.pokemongo
 am force-stop com.gocheats.launcher
 
 #Restart GC
-monkey -p com.gocheats.launcher 1
+su -c "monkey -p com.gocheats.launcher 1"
 
 #redo optimizations
 launcher_pid=`pidof com.gocheats.launcher`
@@ -293,9 +290,12 @@ sleep 1
 
 #>>>>>>Check if wifi is enabled prior to testing......
 
-su -c "ping -c1 $routerIP" > /dev/null
-if [ $? -eq 0 ] #|| $? != 'connect: Network is unreachable'
-	then 
+#ping -c1 $routerIP ; echo $?
+
+
+ping -c 5 $routerIP
+echo $? > /sdcard/ping_error.txt
+if [ $? -eq 0 ]; then
 		echo "Ping good"
 		#echo "The value:" $?
 	else
